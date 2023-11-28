@@ -11,14 +11,14 @@ function App() {
 
   // 조회 함수
   const fetchTodos = async() => {
-    const {data} = await axios.get('http://localhost:3001/todos');
+    const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos`);
     console.log('response', data);
     setTodos(data);
   }
 
   // 추가 함수
   const onSubmitHandler = async() => {
-    await axios.post('http://localhost:3001/todos', inputValue);
+    await axios.post(`${process.env.REACT_APP_SERVER_URL}/todos`, inputValue);
     // 컴포넌트에도 랜더링되게 하기 (state 도 바꾸기)
     // setTodos([...todos, inputValue ]);
     fetchTodos();
@@ -27,7 +27,7 @@ function App() {
 
   // 삭제 함수
   const onDeleteHandler = async(id) => {
-    await axios.delete(`http://localhost:3001/todos/${id}`);
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/todos/${id}`);
     setTodos(todos.filter((item)=> item.id !== id));
   }
 
@@ -38,7 +38,7 @@ function App() {
 
   // 수정함수
   const onUpdatedHandler = async() => {
-    await axios.patch(`http://localhost:3001/todos/${editedId}`,{
+    await axios.patch(`${process.env.REACT_APP_SERVER_URL}/todos/${editedId}`,{
       title: editedContent,
     })
     setTodos(todos.map((item)=>{
