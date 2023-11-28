@@ -1,5 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
+import api from './axios/api';
 
 function App() {
   const [todos, setTodos] = useState(null);
@@ -11,14 +12,14 @@ function App() {
 
   // 조회 함수
   const fetchTodos = async() => {
-    const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos`);
+    const {data} = await api.get(`/todos`);
     console.log('response', data);
     setTodos(data);
   }
 
   // 추가 함수
   const onSubmitHandler = async() => {
-    await axios.post(`${process.env.REACT_APP_SERVER_URL}/todos`, inputValue);
+    await api.post(`/todos`, inputValue);
     // 컴포넌트에도 랜더링되게 하기 (state 도 바꾸기)
     // setTodos([...todos, inputValue ]);
     fetchTodos();
@@ -27,7 +28,7 @@ function App() {
 
   // 삭제 함수
   const onDeleteHandler = async(id) => {
-    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/todos/${id}`);
+    await api.delete(`/todos/${id}`);
     setTodos(todos.filter((item)=> item.id !== id));
   }
 
@@ -38,7 +39,7 @@ function App() {
 
   // 수정함수
   const onUpdatedHandler = async() => {
-    await axios.patch(`${process.env.REACT_APP_SERVER_URL}/todos/${editedId}`,{
+    await api.patch(`/todos/${editedId}`,{
       title: editedContent,
     })
     setTodos(todos.map((item)=>{
